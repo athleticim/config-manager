@@ -4,11 +4,11 @@ const { setKeyNames, hasKeyName, checkSize,
     checkModifiedSetSize, setModifiedSecretName, hasSecretName } = require('./setUtil')
 
 
-const getConfigValueByKey = async (key) => {
+const getConfigValueByKey = async (key, hostName) => {
     if (process.env[key] != undefined) {
         return process.env[key];
     }
-    const value = await checkAndReturnValue(key);
+    const value = await checkAndReturnValue(key , hostName);
     if (value) {
         return value;
     } else {
@@ -16,8 +16,8 @@ const getConfigValueByKey = async (key) => {
     }
 }
 
-async function checkAndReturnValue(key) {
-    const { hostConfig, defaultConfig } = await getAndSetConfigData();
+async function checkAndReturnValue(key , hostName) {
+    const { hostConfig, defaultConfig } = await getAndSetConfigData(hostName);
     if (hostConfig[key] != null) {
         return hostConfig[key];
     } else if (defaultConfig[key] != null) {

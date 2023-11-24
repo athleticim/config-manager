@@ -38,12 +38,19 @@ const setModifiedSecretName=(array)=>{
         modifiedName.add(modifiedName);
     }
 }
-
+function getHost(hostParam){
+    return hostParam || getEnvHost();
+}
+function getEnvHost(){
+    const url=new URL(process.env.hostUrl);
+     return String(url.hostname).split('.')[0];
+}
 module.exports={
     setKeyNames,
     hasKeyName,
     checkSize,
     checkModifiedSetSize,
     hasSecretName,
-    setModifiedSecretName
+    setModifiedSecretName,
+    getHost
 }

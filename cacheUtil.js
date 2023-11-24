@@ -3,6 +3,7 @@ const nodeCache = require('node-cache');
 const myCache = new nodeCache();
 const performance = require('perf_hooks').performance;
 const { gitFileInitialUrl, gitToken } = require('./gitInfo');
+const {getHost}=require('./setUtil');
 
 async function fetchDefaultConfig() {
     try {
@@ -20,10 +21,9 @@ async function fetchDefaultConfig() {
     }
 }
 
-async function fetchHostConfig() {
+async function fetchHostConfig(host) {
     try {
-        const url = new URL(process.env.hostUrl);
-        const hostName = String(url.hostname).split('.')[0];
+        const hostName=getHost(host);
         const hostConfig =
             await axios.get(`$(gitFileInitialUrl}/${hostName}/config.json`,
                 {
@@ -54,17 +54,17 @@ async function fetchEnvKeys(fileName) {
     }
 }
 
-async function getAndSetConfigData() {
-    const hostConfig = await getHostConfig();
+async function getAndSetConfigData(hostName) {
+    const hostConfig = await getHostConfig(hostName);
     const defaultConfig = await getDefaultConfig();
     return { hostConfig, defaultConfig };
 }
 
-async function getHostConfig() {
+async function getHostConfig(hostName) {
     if (myCache.has('hostConfig')) {
         return myCache.get('hostConfig');
     } else {
-        const hostConfigData = await fetchHostConfig();
+        const hostConfigData = await fetchHostConfig(hostName);
         let cacheHostConfig = {};
         if (hostConfigData) {
             cacheHostConfig = hostConfigData;
