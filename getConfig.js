@@ -1,4 +1,4 @@
-const { getAndSetConfigData, fetchEnvKeys } = require('./cacheutil')
+const { getAndSetConfigData, fetchEnvKeys } = require('./cacheUtil')
 const performance = require('perf_hooks').performance;
 const { setKeyNames, hasKeyName, checkSize,
     checkModifiedSetSize, setModifiedSecretName, hasSecretName } = require('./setUtil')

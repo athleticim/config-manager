@@ -79,10 +79,10 @@ async function getDefaultConfig() {
     if (myCache.has('defaultConfig')) {
         return myCache.get('defaultConfig');
     } else {
-        const defaultConfig = await fetchDefaultConfig();
+        const defaultConfigData = await fetchDefaultConfig();
         let cacheDefaultConfig = {};
         if (defaultConfigData) {
-            cacheDefaultConfig = defaultConfig;
+            cacheDefaultConfig = defaultConfigData;
             myCache.set('defaultConfig', cacheDefaultConfig);
         }
         return cacheDefaultConfig;
